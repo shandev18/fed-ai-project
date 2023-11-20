@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  background: transparent;
+  font-family: "source-code-pro", monospace;
+}
+
+body {
+  background: #000000;
+  color: #ecedee;
+}
+
+h1 {
+  font-family: "source-code-pro", monospace;
+}
+
+p {
+  font-family: monospace;
+  font-weight: 200 !important;
+  color: white;
+}
