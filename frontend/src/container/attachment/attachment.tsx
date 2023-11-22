@@ -51,7 +51,7 @@ const Attachment = () => {
     multiple: false,
     method: "post",
     crossOrigin: "use-credentials",
-    action: "http://127.0.0.1:8080/analyze_video",
+    action: "http://127.0.0.1:8081/analyze_video",
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {

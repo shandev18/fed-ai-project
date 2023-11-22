@@ -5,6 +5,7 @@ import axios from "axios";
 import ReactPlayer from "react-player";
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
+import AudioContent from "./audiocontent.tsx";
 
 const Container = styled.div`
   display: flex;
@@ -30,19 +31,18 @@ const StyledCardContainerPreview = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   background-color: #222222;
   border-radius: 3px;
-  padding: 10px;
 `;
 
 const StyledCardContainerResults = styled.div`
   width: 550px;
-  height: 520px;
+  height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   text-align: center;
   margin-left: 20px;
@@ -51,11 +51,10 @@ const StyledCardContainerResults = styled.div`
 `;
 
 const AudioContainer = styled.div`
-  height: 162px;
   overflow: auto;
 `;
 
-const AudioContent = styled.div`
+const AudioContentArea = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -95,13 +94,13 @@ const StyledTable = styled(Table)`
     background-color: #000 !important;
     color: white !important;
     border-radius: 0rem !important;
-    width: 510px !important;
-    height: 162px !important;
+    width: 100% !important;
+    height: auto !important;
     display: flex !important;
     justify-content: top !important;
     align-items: top !important;
     text-align: top !important;
-    margin-top: -110px !important;
+    margin-top: 20px !important;
     margin-bottom: 20px;
   }
 
@@ -151,6 +150,7 @@ const Uploadvideo = () => {
   const [video, setVideo] = useState("");
   const [videoPath, setVideoPath] = useState("");
   const [slides, setSlides] = useState<any>([]);
+  const [audioChunks, setAudioChunks] = useState<any>([]);
 
   const divStyle = {
     display: "flex",
@@ -159,36 +159,57 @@ const Uploadvideo = () => {
     backgroundSize: "cover",
   };
 
+  const mapEmotionToEmoji = (emotion) => {
+    if (emotion && typeof emotion === "string") {
+      switch (emotion.toLowerCase()) {
+        case "angry":
+          return <span style={{ color: "red" }}>😠</span>;
+        case "neutral":
+          return <span style={{ color: "black" }}>😐</span>;
+        case "happy":
+          return <span style={{ color: "green" }}>😊</span>;
+        case "positive":
+          return <span style={{ color: "green" }}>👍</span>;
+        case "negative":
+          return <span style={{ color: "red" }}>👎</span>;
+        // Add more cases for other emotions as needed
+        default:
+          return "";
+      }
+    } else {
+      return "";
+    }
+  };
+
   const data = [
     {
       key: "Emotion",
-      Facial: result?.video_detail.cumulative_emotion,
-      Speech: result?.audio_detail.cumulative_emotion,
-      Final: result?.final_prediction,
+      Facial: mapEmotionToEmoji(result?.video_detail.cumulative_emotion),
+      Speech: mapEmotionToEmoji(result?.audio_detail.cumulative_emotion),
+      Final: mapEmotionToEmoji(result?.final_prediction),
     },
     {
       key: "Sentiment",
-      Facial: "--",
-      // Facial: result?.video_detail.cumulative_sentiment,
-      Speech: result?.audio_detail.cumulative_sentiment,
-      Final: "--",
+      Facial: mapEmotionToEmoji(result?.video_detail.cumulative_sentiment),
+      Speech: mapEmotionToEmoji(result?.audio_detail.cumulative_sentiment),
+      Final: mapEmotionToEmoji(result?.final_prediction_sentiment),
     },
   ];
 
   const fetchResults = async () => {
     await axios
-      .get(`http://127.0.0.1:8080/analyze_video?job_id=${job}`)
+      .get(`http://127.0.0.1:8081/analyze_video?job_id=${job}`)
       .then((res) => {
         setResult(res.data[0]);
         var startIndex = res.data[0]?.video_detail?.file_path.indexOf("static");
         var resul = res.data[0]?.video_detail?.file_path.substring(startIndex);
 
-        setVideoPath(`http://127.0.0.1:8080/${resul}`);
+        setVideoPath(`http://127.0.0.1:8081/${resul}`);
 
         //
         const frames = res.data[0]?.video_detail?.frames?.map(
           (frame, index) => {
-            const r2 = `http://127.0.0.1:8080/${frame.frame_path}`;
+            const r2 = `http://127.0.0.1:8081/${frame.frame_path}`;
             return {
               id: index,
               path: r2,
@@ -198,10 +219,11 @@ const Uploadvideo = () => {
           }
         );
         setSlides(frames);
+        setAudioChunks(res.data[0]?.audio_detail?.audio_chunks || []);
       })
       .catch((err) => {});
   };
-  console.log(slides);
+
   useEffect(() => {
     fetchResults();
   }, []);
@@ -216,13 +238,13 @@ const Uploadvideo = () => {
           <Heading>/results</Heading>
         </Row1>
         <Row2>
-          <StyledCardContainerPreview style={{ alignItems: "top" }}>
+          <StyledCardContainerPreview>
             {/* add video link here */}
             <ReactPlayer
               url={videoPath}
               controls={true}
-              width="100%"
-              height="30%"
+              width={510}
+              height={360}
             />
             <SmallCardContainer>
               <Slide
@@ -242,7 +264,7 @@ const Uploadvideo = () => {
                         borderRadius: "3px",
                       }}
                     ></div> */}
-                    <Image width={75} height={75} src={slide.path} />
+                    <Image src={slide.path} />
                   </div>
                 ))}
               </Slide>
@@ -261,13 +283,7 @@ const Uploadvideo = () => {
             <AudioHeading>/audio</AudioHeading>
             <AudioContainer>
               {/* Make the audio area scrollable */}
-              <AudioContent>
-                {/* Add your audio content here */}
-                <p style={{ fontSize: 15 }}> audio in text will appear here</p>
-                <p style={{ marginTop: 70, fontSize: 15 }}>Emotion : Happy</p>
-                <p style={{ marginTop: 10, fontSize: 15 }}>Sentiment : --</p>
-                {/* <ReactAudioPlayer src="my_audio_file.ogg" autoPlay controls /> */}
-              </AudioContent>
+              <AudioContent audioChunks={audioChunks} />
             </AudioContainer>
           </StyledCardContainerResults>
         </Row2>

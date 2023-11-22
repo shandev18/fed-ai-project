@@ -29,4 +29,6 @@ tspan {
 
 .ant-image-img {
   object-fit: cover !important;
+  width: 100px !important;
+  height: 100px !important;
 }
