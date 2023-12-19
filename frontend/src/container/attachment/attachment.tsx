@@ -11,7 +11,6 @@ const StyledDraggerContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  margin-left: 370px;
 `;
 
 const StyledDragger = styled(Dragger)`

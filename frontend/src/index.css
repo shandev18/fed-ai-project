@@ -22,13 +22,23 @@ tspan {
   background-color: #333333 !important;
 }
 
-.react-slideshow-container {
-  width: 520px !important;
-  border-radius: 3px !important;
-}
-
 .ant-image-img {
   object-fit: cover !important;
   width: 100px !important;
   height: 100px !important;
+}
+
+.ant-popover-title {
+  color: white !important;
+  font-family: "source-code-pro", monospace;
+  font-weight: 200 !important;
+  text-align: center;
+}
+
+.ant-popover-inner {
+  background-color: #333333 !important;
+}
+
+.ant-popover {
+  --antd-arrow-background-color: #333333 !important;
 }

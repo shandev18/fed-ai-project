@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import ReactPlayer from "react-player";
 import { Button, Table } from "antd";
 import Webcam from "react-webcam";
+import io from "socket.io-client";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  height: 50vh;
-  margin: 180px;
+  height: 100vh;
+  margin: 180px auto;
 `;
 
 const Row1 = styled.div`
@@ -118,6 +118,62 @@ const data = [
 ];
 
 const WebcamMain = () => {
+  const webcamRef: any = useRef();
+  const socket = io("http://localhost:5000"); // Replace with your Flask server address
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("Connected to server");
+    });
+  }, []);
+
+  useEffect(() => {
+    // Access webcam and start sending frames to the server
+    const startWebcam = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
+        webcamRef.current.srcObject = stream;
+
+        webcamRef.current.addEventListener("loadeddata", () => {
+          const intervalId = setInterval(() => {
+            if (!webcamRef.current) {
+              clearInterval(intervalId);
+              return;
+            }
+
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = webcamRef.current.videoWidth;
+            canvas.height = webcamRef.current.videoHeight;
+
+            ctx?.drawImage(
+              webcamRef.current,
+              0,
+              0,
+              canvas.width,
+              canvas.height
+            );
+            const imageData = canvas.toDataURL("image/jpeg");
+            socket.emit("live_stream", { imageData });
+          }, 1000); // Adjust interval based on processing speed
+        });
+      } catch (error) {
+        console.error("Error accessing webcam:", error);
+      }
+    };
+    startWebcam();
+    return () => {
+      // Clean up webcam stream on component unmount
+      if (webcamRef.current) {
+        webcamRef.current.srcObject
+          ?.getTracks()
+          .forEach((track) => track.stop());
+      }
+    };
+  }, []);
+
   return (
     <>
       <Container>

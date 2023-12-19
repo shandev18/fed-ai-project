@@ -7,6 +7,11 @@ import HappyIcon from "../../../assets/Happy.png";
 import positiveIcon from "../../../assets/positive.png";
 import NegativeIcon from "../../../assets/negative.png";
 
+const ScrollableResultsContainer = styled.div`
+  max-height: 400px;
+  overflow: auto;
+`;
+
 const AudioCard = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,9 +20,10 @@ const AudioCard = styled.div`
   width: 510px;
   padding: 20px;
   gap: 20px;
-  margin-top: 10px;
+  margin-top: 20px;
   margin-right: 10px;
   margin-left: 10px;
+  margin-bottom: 20px;
 `;
 
 const AudioText = styled.p`
@@ -69,12 +75,12 @@ const mapEmotionToEmoji = (emotion) => {
   }
 };
 
-const AudioContent = ({ audioChunks }) => {
+const TextResults = ({ analyze_text }) => {
   return (
-    <div>
-      {audioChunks.map((chunk, index) => (
+    <ScrollableResultsContainer>
+      {analyze_text?.map((chunk, index) => (
         <AudioCard key={index}>
-          <AudioText>{` ${chunk.input_text}`}</AudioText>
+          <AudioText>{` ${chunk.sentence}`}</AudioText>
           <EmotionSentimentRow>
             <AudioText>
               Predicted Emotion: {mapEmotionToEmoji(chunk.pred_emotion)}
@@ -85,8 +91,8 @@ const AudioContent = ({ audioChunks }) => {
           </EmotionSentimentRow>
         </AudioCard>
       ))}
-    </div>
+    </ScrollableResultsContainer>
   );
 };
 
-export default AudioContent;
+export default TextResults;

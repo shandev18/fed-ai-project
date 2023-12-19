@@ -10,24 +10,18 @@ import Uploadvideo from "./container/attachment/components/results.tsx";
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 `;
 
-const MainContainer = styled.div`
-  display: flex;
-  flex: 1;
-`;
+const MainContainer = styled.div``;
 
 const App = () => {
   return (
     <AppContainer>
       <Header />
-      <MainContainer>
-        <Sider />
-        {/* <Uploadvideo /> */}
-        <AppRoutes />
-        <Footer />
-      </MainContainer>
+      <Sider />
+      {/* <Uploadvideo /> */}
+      <AppRoutes />
+      <Footer />
     </AppContainer>
   );
 };

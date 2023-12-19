@@ -8,13 +8,16 @@ import {
 import styled from "styled-components";
 
 const Sidebar = styled.div`
-  background-color: black;
-  width: 180px;
+  background-color: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-left: 30px;
 `;
 
 const Icon = styled.i`
