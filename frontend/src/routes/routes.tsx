@@ -8,7 +8,7 @@ import WebcamCapture from "../container/webcam/webcamtest.tsx";
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/webcam" element={<WebcamCapture />} />
+      <Route path="/webcam" element={<Webcam />} />
       <Route path="/text" element={<Text />} />
       <Route path="/attachment" element={<Attachment />} />
       <Route path="/attachmentResults" element={<Uploadvideo />} />

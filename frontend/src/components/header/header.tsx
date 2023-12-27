@@ -48,7 +48,7 @@ const Nav = styled.div`
   background: #000000;
   height: 5rem;
   width: 100vw;
-  max-width: 107rem;
+  max-width: 120rem;
   margin: 0 auto;
   padding: 1rem 2rem;
   display: flex;

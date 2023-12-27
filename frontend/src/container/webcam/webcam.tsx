@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { Button, Table } from "antd";
 import Webcam from "react-webcam";
@@ -118,60 +118,51 @@ const data = [
 ];
 
 const WebcamMain = () => {
-  const webcamRef: any = useRef();
-  const socket = io("http://localhost:5000"); // Replace with your Flask server address
+  const webcamRef: any = useRef(null);
+  const socket: any = useRef(null);
+  const [capturedImages, setCapturedImages] = useState<any>("");
 
+  const setNewImage = (data) => {
+    setCapturedImages(`data:image/jpg;base64,${data}`);
+  };
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Connected to server");
-    });
+    // Connect to the WebSocket server
+    socket.current = io("http://127.0.0.1:8081");
+
+    // Cleanup function to disconnect the socket when the component is unmounted
+    return () => {
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+    };
   }, []);
 
+  // Function to capture and send images every second
+  const captureAndSendImage = () => {
+    if (webcamRef.current) {
+      const imageSrc = webcamRef.current.getScreenshot();
+
+      // Emit the image data through the WebSocket
+      if (socket.current) {
+        socket.current.emit("live_stream", { imageData: imageSrc });
+        socket.current.on("processed_frame", ({ imageData }) => {
+          if (imageData) {
+            setNewImage(imageData);
+          }
+        });
+      }
+
+      // Store captured images for display or further processing
+      //setCapturedImages((prevImages) => [...prevImages, imageSrc]);
+    }
+  };
+
+  // Set up a interval to capture and send images every second
   useEffect(() => {
-    // Access webcam and start sending frames to the server
-    const startWebcam = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        webcamRef.current.srcObject = stream;
+    const intervalId = setInterval(captureAndSendImage, 1000);
 
-        webcamRef.current.addEventListener("loadeddata", () => {
-          const intervalId = setInterval(() => {
-            if (!webcamRef.current) {
-              clearInterval(intervalId);
-              return;
-            }
-
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d");
-            canvas.width = webcamRef.current.videoWidth;
-            canvas.height = webcamRef.current.videoHeight;
-
-            ctx?.drawImage(
-              webcamRef.current,
-              0,
-              0,
-              canvas.width,
-              canvas.height
-            );
-            const imageData = canvas.toDataURL("image/jpeg");
-            socket.emit("live_stream", { imageData });
-          }, 1000); // Adjust interval based on processing speed
-        });
-      } catch (error) {
-        console.error("Error accessing webcam:", error);
-      }
-    };
-    startWebcam();
-    return () => {
-      // Clean up webcam stream on component unmount
-      if (webcamRef.current) {
-        webcamRef.current.srcObject
-          ?.getTracks()
-          .forEach((track) => track.stop());
-      }
-    };
+    // Cleanup function to clear the interval when the component is unmounted
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -184,7 +175,13 @@ const WebcamMain = () => {
         <Row2>
           <StyledCardContainerPreview>
             {/* add video link here */}
-            <Webcam videoConstraints={videoConstraints} />
+            <Webcam
+              videoConstraints={videoConstraints}
+              audio={false}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              mirrored={true}
+            />
           </StyledCardContainerPreview>
           <StyledCardContainerResults>
             {/* Results section */}
@@ -195,6 +192,7 @@ const WebcamMain = () => {
               // bordered
             />
           </StyledCardContainerResults>
+            <img src={capturedImages} alt="emotions"></img>
         </Row2>
       </Container>
     </>
