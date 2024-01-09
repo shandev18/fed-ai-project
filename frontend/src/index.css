@@ -18,15 +18,15 @@ tspan {
 }
 
 .ant-btn-primary:hover {
-  color: #006fee !important;
-  background-color: #333333 !important;
+  color: #262E5B !important;
+  background-color: #262E5B !important;
 }
 
-.ant-image-img {
+/* .ant-image-img {
   object-fit: cover !important;
   width: 100px !important;
   height: 100px !important;
-}
+} */
 
 .ant-popover-title {
   color: white !important;

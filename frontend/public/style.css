@@ -4,13 +4,13 @@
   box-sizing: border-box;
   text-decoration: none;
   background: transparent;
-  font-family: "source-code-pro", monospace;
+  font-family: "Poppins", monospace;
 }
 
 body {
-  background: #000000;
-  color: #ecedee;
-  overflow: hidden;
+  background: #FFF6F6;
+  color: black;
+ /* overflow: hidden; */
 }
 
 ::-webkit-scrollbar {
@@ -18,7 +18,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: black;
+  background-color: #262E5B;
   border-radius: 4px;
   background-clip: content-box;
 }
@@ -28,11 +28,35 @@ body {
 }
 
 h1 {
-  font-family: "source-code-pro", monospace;
+  font-family: "Roboto Serif", monospace;
+  font-weight: 300;
 }
 
 p {
-  font-family: "source-code-pro", monospace;
+  font-family: "Poppins", monospace;
   font-weight: 200 !important;
-  color: white;
+}
+
+.w-350{
+  max-width: 350px;
+  text-align: center;
+
+}
+.flx-grw{
+  flex-grow: 1;
+}
+.align-left{
+  text-align: left;
+
+}
+.color-black{
+  color: #c4c4c4;
+  font-weight: 500 !important;
+}
+.mywrapper:hover{
+  background-color: #262e5b;
+  cursor: pointer;
+}
+.mywrapper:hover p{
+  color: white !important;
 }

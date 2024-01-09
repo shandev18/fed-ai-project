@@ -1,96 +1,20 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { Button, Empty, Input } from "antd";
+import React, { useState } from "react";
 import axios from "axios";
+import {
+  Container,
+  Row1,
+  Row2,
+  StyledCardContainerPreview,
+  StyledCardContainerResults,
+  Heading,
+  StyledButton,
+  StyledTextArea,
+  AudioContainer,
+  StyledEmpty,
+} from "./Styled-text.tsx";
 import TextResults from "./components/textresults.tsx";
-const { TextArea } = Input;
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  margin: 180px auto;
-`;
 
-const Row1 = styled.div`
-  width: 100%;
-  display: flex;
-  gap: 20px;
-`;
 
-const Row2 = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-`;
-
-const StyledCardContainerPreview = styled.div`
-  width: 550px;
-  min-height: 400px;
-  padding: 0 20px;
-  padding-top: 20px;
-  background-color: #222222;
-`;
-
-const StyledCardContainerResults = styled.div`
-  width: 550px;
-  height: 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin-left: 20px;
-  background-color: #222222;
-`;
-
-const Heading = styled.div`
-  text-align: center;
-  flex-grow: 1;
-  text-align: left;
-  margin-bottom: 6px;
-  color: #222222;
-  font-weight: 700;
-`;
-
-const StyledButton = styled(Button)`
-  height: 30px;
-  background-color: #333333;
-  color: #ecedee important;
-  border-radius: 8px;
-  margin-top: 18px;
-`;
-
-const StyledTextArea = styled(TextArea)`
-  min-height: 320px !important;
-  max-height: 320px !important;
-  background-color: black !important;
-  color: white;
-  border: 1px solid #333333 !important;
-  font-family: "source-code-pro", monospace;
-  font-weight: 200 !important;
-
-  &::placeholder {
-    color: white !important;
-  }
-
-  &:hover {
-    color: white !important;
-    background-color: black !important;
-  }
-`;
-
-const AudioContainer = styled.div`
-  overflow: auto;
-`;
-
-const StyledEmpty = styled(Empty)`
-  //background-color: #333333 !important;
-  && .ant-empty-description {
-    color: white !important;
-  }
-`;
-
-// ... (your imports)
 
 const UploadText = () => {
   const [text, setText] = useState("");

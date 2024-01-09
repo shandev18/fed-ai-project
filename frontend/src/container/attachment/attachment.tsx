@@ -1,47 +1,9 @@
+// Attachment.js
 import React from "react";
-import { InboxOutlined } from "@ant-design/icons";
-import { message, Upload } from "antd";
-import { styled } from "styled-components";
+import { message } from "antd";
 import { useNavigate } from "react-router-dom";
-
-const { Dragger } = Upload;
-
-const StyledDraggerContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
-const StyledDragger = styled(Dragger)`
-  width: 500px;
-  color: white;
-  background-color: #222222;
-  & :hover {
-    background-color: #333333 !important;
-  }
-
-  && .ant-upload {
-    background-color: #222222;
-    border: none;
-  }
-
-  && .ant-upload-text {
-    color: white !important;
-  }
-
-  && .ant-upload-hint {
-    color: #737578 !important;
-  }
-
-  && .anticon {
-    color: #006fee !important;
-  }
-`;
-
-const StyledUploadText = styled.p`
-  color: white;
-`;
+import { StyledDraggerContainer, StyledDragger, StyledUploadText } from "./Styled-attachment.tsx";
+import { InboxOutlined } from "@ant-design/icons";
 
 const Attachment = () => {
   const navigate = useNavigate();
@@ -50,7 +12,7 @@ const Attachment = () => {
     multiple: false,
     method: "post",
     crossOrigin: "use-credentials",
-    action: "http://127.0.0.1:8081/analyze_video",
+    action: "http://127.0.0.1:8081//analyze_video",
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {

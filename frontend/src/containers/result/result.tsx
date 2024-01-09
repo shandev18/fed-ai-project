@@ -1,10 +1,10 @@
 import React from "react";
 
-const Upload = () => {
+const Result = () => {
    
     return (
     <></>
     );
   };
   
-  export default Upload;
+  export default Result;

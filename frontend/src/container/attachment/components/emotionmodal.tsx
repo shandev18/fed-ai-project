@@ -1,39 +1,16 @@
-import { Button, Modal } from "antd";
+
 import React from "react";
-import styled from "styled-components";
 import AngryIcon from "../../../assets/Angery.png";
 import SadIcon from "../../../assets/Sad.png";
 import NeutralIcon from "../../../assets/Neutral.png";
 import HappyIcon from "../../../assets/Happy.png";
 import positiveIcon from "../../../assets/positive.png";
 import NegativeIcon from "../../../assets/negative.png";
-
-const StyledModal = styled(Modal)`
-  && .ant-modal-content {
-    background-color: #222222 !important;
-  }
-  && .ant-modal-title {
-    background-color: #222222 !important;
-    color: #ecedee !important;
-  }
-`;
-
-const StyledButton = styled(Button)`
-  height: 30px;
-  background-color: #333333;
-  color: #ecedee !important;
-  border-radius: 8px;
-  margin-top: 18px;
-`;
-
-const ModalResults = styled.div`
-  width: 430px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  text-align: left;
-  margin-left: 20px;
-`;
+import {
+  StyledModal,
+  StyledButton,
+  ModalResults,
+} from "./Styled-emotionmodal.tsx";
 
 const EmotionModal = ({
   handleOk,

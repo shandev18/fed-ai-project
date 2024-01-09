@@ -1,46 +1,16 @@
 import React from "react";
-import styled from "styled-components";
 import AngryIcon from "../../../assets/Angery.png";
 import SadIcon from "../../../assets/Sad.png";
 import NeutralIcon from "../../../assets/Neutral.png";
 import HappyIcon from "../../../assets/Happy.png";
 import positiveIcon from "../../../assets/positive.png";
 import NegativeIcon from "../../../assets/negative.png";
-
-const AudioCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  background-color: #000;
-  width: 510px;
-  padding: 20px;
-  gap: 20px;
-  margin-top: 10px;
-  margin-right: 10px;
-  margin-left: 10px;
-`;
-
-const AudioText = styled.p`
-  color: #ecedee !important;
-  font-weight: 400;
-  line-height: 20px;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-`;
-
-const EmotionSentimentRow = styled.div`
-  margin-top: auto; /* Push the row to the bottom */
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ResultsIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-`;
+import {
+  AudioCard,
+  AudioText,
+  EmotionSentimentRow,
+  ResultsIcon,
+} from "./Styled-audiocontent.tsx";
 
 const mapEmotionToEmoji = (emotion) => {
   if (emotion && typeof emotion === "string") {

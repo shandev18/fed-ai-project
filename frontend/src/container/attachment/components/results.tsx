@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { Button, Image, Modal } from "antd";
 import axios from "axios";
 import ReactPlayer from "react-player";
 import { Slide } from "react-slideshow-image";
@@ -12,149 +10,26 @@ import NeutralIcon from "../../../assets/Neutral.png";
 import HappyIcon from "../../../assets/Happy.png";
 import positiveIcon from "../../../assets/positive.png";
 import NegativeIcon from "../../../assets/negative.png";
-import EmotionModal from "./emotionmodal.tsx";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  height: 100vh;
-  margin: 100px auto;
-`;
-
-const Row1 = styled.div`
-  width: 100%;
-  display: flex;
-  gap: 20px;
-`;
-
-const Row2 = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  overflow-x: hidden;
-`;
-
-const StyledCardContainerPreview = styled.div`
-  width: 40vw;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: start;
-  background-color: #222222;
-  border-radius: 3px;
-  padding: 10px;
-  gap: 8px;
-`;
-
-const AudioContainer = styled.div`
-  overflow: auto;
-`;
-
-const Heading = styled.div`
-  text-align: center;
-  flex-grow: 1;
-  text-align: left;
-  margin-bottom: 6px;
-  color: #222222;
-  font-weight: 700;
-`;
-
-const SubHeading = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  text-align: left;
-  margin-bottom: 6px;
-  color: #222222;
-  font-weight: 700;
-`;
-const AudioHeading = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  text-align: left;
-  margin-top: 6px;
-
-  color: white;
-`;
-
-const FinalResults = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  text-align: left;
-  gap: 20px;
-`;
-
-const FinalEmotionResults = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: black;
-  text-align: left;
-  font-size: 30px;
-`;
-
-const FinalSentimentResults = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: black;
-  text-align: left;
-  font-size: 30px;
-`;
-
-const SentimentDiv = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-  background-color: black;
-  text-align: left;
-  //color: blue;
-`;
-const EmotionDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  background-color: black;
-`;
-
-const SmallCardContainer = styled.div`
-  min-width: 64%;
-  max-width: 64%;
-`;
-
-const ResultsIcon = styled.img`
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-`;
-
-const StyledModal = styled(Modal)`
-  && .ant-modal-content {
-    background-color: #222222 !important;
-    width: max-content;
-    height: 70vh;
-    overflow-y: scroll;
-    border-radius: 0px;
-  }
-  && .ant-modal-title {
-    background-color: #222222 !important;
-    color: #ecedee !important;
-  }
-
-  && .ant-modal-close-icon{
-    color: #ecedee !important;
-  }
-  }
-`;
+import {
+  Container,
+  Row1,
+  Row2,
+  StyledCardContainerPreview,
+  AudioContainer,
+  Heading,
+  SubHeading,
+  AudioHeading,
+  FinalResults,
+  FinalEmotionResults,
+  FinalSentimentResults,
+  SentimentDiv,
+  EmotionDiv,
+  SmallCardContainer,
+  ResultsIcon,
+  StyledModal,
+  StyledImage,
+  // ... (import your remaining styled components)
+} from "./Styled-results.tsx";
 
 // Helper function to count the occurrences of each emotion
 const countEmotionOccurrences = (emotions) => {
@@ -295,21 +170,8 @@ const Uploadvideo = () => {
                 {percentage.toFixed(2)}%{emoji}
               </FinalEmotionResults>
               <EmotionDiv style={{ color: textColor }}>{emotion}</EmotionDiv>
-              {/* {sentiment} - {percentage.toFixed(2)}% - {emoji} */}
             </div>
-            {/* <EmotionModal
-              isModalOpen={isModalOpen}
-              handleOk={handleOk}
-              SubHeading={SubHeading}
-              FinalEmotionResults={FinalEmotionResults}
-              EmotionDiv={EmotionDiv}
-              countEmotionOccurrences={countEmotionOccurrences}
-              calculateEmotionPercentages={calculateEmotionPercentages}
-              audioChunks={audioChunks}
-              FinalResults={FinalResults}
-              ResultsIcon={ResultsIcon}
-              result={result}
-            /> */}
+           
           </>
         );
       }
@@ -406,7 +268,7 @@ const Uploadvideo = () => {
               <SmallCardContainer>
                 {slides.length > 0 && (
                   <Slide
-                    slidesToShow={4}
+                    slidesToShow={5}
                     slidesToScroll={1}
                     arrows={false}
                     autoplay={true}
@@ -414,34 +276,34 @@ const Uploadvideo = () => {
                   >
                     {slides?.map((slide, index) => (
                       <div key={index}>
-                        <Image src={slide.path} />
+                        <StyledImage src={slide.path} />
                       </div>
                     ))}
                   </Slide>
                 )}
               </SmallCardContainer>
-              <div style={{ minWidth: "35%", maxWidth: "35%" }}>
-                {/* Display the final emotion prediction */}
+              {/* <div style={{ minWidth: "35%", maxWidth: "35%" }}>
+                
                 {mapEmotionToEmoji(
                   result?.final_prediction,
                   emotionPercentages
                 )}
-              </div>
+              </div> */}
             </Row2>
           </StyledCardContainerPreview>
 
-          {/* Results section */}
-          <StyledModal
+          
+          {/* <StyledModal
             title="Emotion Details"
             open={isModalOpen}
             onCancel={handleCancel}
             footer={[]}
           >
             <FinalResults>
-              {/* Display the final emotion prediction */}
+             
               {mapEmotionToEmoji(result?.final_prediction, emotionPercentages)}
 
-              {/* Display the final sentiment prediction with percentage and emoji */}
+             
               {mapSentimentToEmoji(
                 result?.audio_detail.cumulative_sentiment,
                 sentimentPercentages
@@ -449,10 +311,10 @@ const Uploadvideo = () => {
             </FinalResults>
             <AudioHeading>/audio</AudioHeading>
             <AudioContainer>
-              {/* Make the audio area scrollable */}
+             
               <AudioContent audioChunks={audioChunks} />
             </AudioContainer>
-          </StyledModal>
+          </StyledModal> */}
         </Row2>
       </Container>
     </>

@@ -1,46 +1,8 @@
+// Sider.js
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  AudioOutlined,
-  FontSizeOutlined,
-  PaperClipOutlined,
-} from "@ant-design/icons";
-import styled from "styled-components";
-
-const Sidebar = styled.div`
-  background-color: transparent;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-left: 30px;
-`;
-
-const Icon = styled.i`
-  color: white;
-  font-size: 24px;
-  margin: 10px;
-`;
-
-const IconBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 4rem;
-  width: 4rem;
-  background-color: #222222;
-  margin-bottom: -15px;
-  cursor: pointer;
-  color: white;
-  &:hover {
-    color: #006fee;
-    background-color: #333333;
-  }
-`;
+import { AudioOutlined, FontSizeOutlined, PaperClipOutlined } from "@ant-design/icons";
+import { Sidebar, Icon, IconBox, StyledLink } from "./Styled-sider.tsx";
+import { useNavigate } from "react-router-dom";
 
 const SidebarItem = ({ to, children }) => {
   const navigate = useNavigate();
@@ -51,9 +13,9 @@ const SidebarItem = ({ to, children }) => {
 
   return (
     <Icon>
-      <Link to={to} onClick={handleClick}>
+      <StyledLink to={to} onClick={handleClick}>
         <IconBox>{children}</IconBox>
-      </Link>
+      </StyledLink>
     </Icon>
   );
 };
@@ -75,67 +37,3 @@ const Sider = () => {
 };
 
 export default Sider;
-
-// import {
-//   AudioOutlined,
-//   FontSizeOutlined,
-//   PaperClipOutlined,
-// } from "@ant-design/icons";
-// import React from "react";
-// import { useNavigate } from "react-router-dom";
-// import styled from "styled-components";
-
-// const Sidebar = styled.div`
-//   background-color: black;
-//   width: 180px;
-//   height: 100vh;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-// `;
-
-// const Icon = styled.i`
-//   color: white;
-//   font-size: 24px;
-//   margin: 10px;
-// `;
-
-// const IconBox = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   height: 4rem;
-//   width: 4rem;
-//   background-color: #222222;
-//   margin-bottom: -15px;
-//   cursor: pointer;
-//   &:hover {
-//     color: #006fee;
-//     background-color: #333333;
-// `;
-
-// const Sider = () => {
-//   //const nevigate = useNavigate();
-//   return (
-//     <Sidebar>
-//       <Icon>
-//         <IconBox>
-//           <AudioOutlined />
-//         </IconBox>
-//       </Icon>
-//       <Icon>
-//         <IconBox>
-//           <FontSizeOutlined />
-//         </IconBox>
-//       </Icon>
-//       <Icon>
-//         <IconBox>
-//           <PaperClipOutlined />
-//         </IconBox>
-//       </Icon>
-//     </Sidebar>
-//   );
-// };
-
-// export default Sider;
